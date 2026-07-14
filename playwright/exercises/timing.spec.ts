@@ -1,6 +1,6 @@
 import { expect, test } from "../fixtures";
 
-test("@exercise premature assertion misses the delayed result", async ({
+test("@exercise fixed timing waits for the delayed user-visible result", async ({
   page,
 }) => {
   await page.goto("/login");
@@ -28,8 +28,7 @@ test("@exercise premature assertion misses the delayed result", async ({
   await page.goto("/address-change");
   await page.getByRole("combobox", { name: "Adresa sídla" }).fill("Česká");
 
-  const visible = await page
-    .getByRole("option", { name: "Česká 166/11, 602 00 Brno" })
-    .isVisible();
-  expect(visible).toBe(true);
+  await expect(
+    page.getByRole("option", { name: "Česká 166/11, 602 00 Brno" })
+  ).toBeVisible();
 });
