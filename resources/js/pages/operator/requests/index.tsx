@@ -21,7 +21,7 @@ const OperatorQueue = ({ requests }: { requests: QueueRequest[] }) => {
   return (
     <AppLayout breadcrumbs={[{ href: "/operator/requests", title: "Fronta" }]}>
       <Head title="Požiadavky na schválenie" />
-      <main className="mx-auto flex w-full max-w-3xl flex-col gap-6 p-4 md:p-8">
+      <main className="mx-auto flex w-full max-w-5xl flex-col gap-6 p-4 md:p-8">
         <div>
           <p className="text-sm font-medium text-primary">Operátorská zóna</p>
           <h1 className="text-3xl font-semibold tracking-tight">
