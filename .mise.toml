@@ -69,6 +69,10 @@ run = "node scripts/workshop-cli.mjs exercise:timing"
 [tasks."exercise:visual"]
 run = "node scripts/workshop-cli.mjs exercise:visual"
 
+[tasks."test:visual"]
+description = "Rebuild and run the approved visual check in the pinned image"
+run = "node scripts/workshop-cli.mjs test:visual"
+
 [tasks.verify]
 description = "Reset data and run the current critical flow"
 run = "node scripts/workshop-cli.mjs verify:critical"
