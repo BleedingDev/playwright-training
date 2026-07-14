@@ -66,6 +66,9 @@ run = "node scripts/workshop-cli.mjs exercise:mocking"
 [tasks."exercise:timing"]
 run = "node scripts/workshop-cli.mjs exercise:timing"
 
+[tasks."exercise:visual"]
+run = "node scripts/workshop-cli.mjs exercise:visual"
+
 [tasks.verify]
 description = "Reset data and run the current critical flow"
 run = "node scripts/workshop-cli.mjs verify:critical"
