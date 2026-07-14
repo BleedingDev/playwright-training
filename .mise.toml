@@ -56,3 +56,6 @@ run = "node scripts/workshop-cli.mjs test:codegen"
 [tasks."test:report"]
 description = "Open the latest Playwright HTML report"
 run = "node scripts/workshop-cli.mjs test:report"
+
+[tasks."exercise:weak-test"]
+run = "node scripts/workshop-cli.mjs exercise:weak-test"
