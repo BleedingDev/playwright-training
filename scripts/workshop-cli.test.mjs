@@ -24,6 +24,16 @@ test("README documents native Windows support", async () => {
   );
 });
 
+test("setup and verify sync generated Wayfinder types to the host", async () => {
+  const cli = await readFile(
+    new URL("scripts/workshop-cli.mjs", root),
+    "utf-8"
+  );
+
+  assert.match(cli, /\["actions", "routes", "wayfinder"\]/u);
+  assert.equal(cli.match(/syncWayfinder\(\);/gu)?.length, 2);
+});
+
 test("available CI and Git hook do not use host-side Bash", async () => {
   const [workflow, hook] = await Promise.all([
     readFile(new URL(".github/workflows/e2e.yml", root), "utf-8").catch(
