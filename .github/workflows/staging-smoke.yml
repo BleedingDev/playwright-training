@@ -1,0 +1,44 @@
+name: Remote smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: Staging base URL
+        required: true
+        type: string
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+
+      - name: Run non-destructive smoke tests
+        env:
+          PLAYWRIGHT_BASE_URL: ${{ inputs.base_url }}
+        run: >-
+          docker run --rm --init
+          -v "$PWD:/work"
+          -w /work
+          -e CI=true
+          -e PLAYWRIGHT_BASE_URL
+          mcr.microsoft.com/playwright:v1.61.1-noble
+          bash -lc 'npm install --global pnpm@11.13.0 --silent && pnpm install --frozen-lockfile && pnpm exec playwright test --grep "@smoke"'
+
+      - name: Upload smoke report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: staging-smoke-report
+          path: playwright-report
+          if-no-files-found: ignore
+
+      - name: Upload smoke artifacts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: staging-smoke-results
+          path: test-results
+          if-no-files-found: ignore

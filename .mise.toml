@@ -33,6 +33,14 @@ run = "node scripts/workshop-cli.mjs app:reset"
 description = "Follow application logs"
 run = "node scripts/workshop-cli.mjs app:logs"
 
+[tasks."app:up:secondary"]
+description = "Start an isolated second application on port 8081"
+run = "node scripts/workshop-cli.mjs app:up:secondary"
+
+[tasks."app:down:secondary"]
+description = "Stop the isolated second application"
+run = "node scripts/workshop-cli.mjs app:down:secondary"
+
 [tasks."test:php"]
 description = "Run the PHP test suite in the reproducible testing image"
 run = "node scripts/workshop-cli.mjs test:php"
