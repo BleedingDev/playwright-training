@@ -38,12 +38,16 @@ description = "Run the PHP test suite in the reproducible testing image"
 run = "node scripts/workshop-cli.mjs test:php"
 
 [tasks."test:e2e"]
-description = "Run the current Playwright workshop suite locally"
+description = "Run the fixed functional Playwright suite locally"
 run = "node scripts/workshop-cli.mjs test:e2e"
 
 [tasks."test:e2e:docker"]
-description = "Run the current suite in the matching Playwright image"
+description = "Run the fixed functional suite in the matching Playwright image"
 run = "node scripts/workshop-cli.mjs test:e2e:docker"
+
+[tasks."test:smoke"]
+description = "Run non-destructive smoke tests"
+run = "node scripts/workshop-cli.mjs test:smoke"
 
 [tasks."test:ui"]
 description = "Open Playwright UI Mode"
