@@ -33,7 +33,7 @@ export default defineConfig({
       },
     },
     {
-      files: ["oxlint.config.ts"],
+      files: ["oxlint.config.mjs"],
       rules: {
         "sort-keys": "off",
       },

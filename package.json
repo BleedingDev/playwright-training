@@ -5,8 +5,8 @@
     "build": "vite build",
     "build:ssr": "vite build && vite build --ssr",
     "dev": "vite",
-    "lint": "ultracite fix",
-    "test:lint": "ultracite check",
+    "lint": "oxfmt --write . && oxlint --config oxlint.config.mjs --fix .",
+    "test:lint": "oxfmt --check . && oxlint --config oxlint.config.mjs .",
     "test:tooling": "node --test scripts/workshop-cli.test.mjs",
     "test:types": "tsc --noEmit",
     "setup:dev-browser": "node scripts/setup-dev-browser.mjs"
