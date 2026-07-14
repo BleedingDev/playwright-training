@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
 
       - name: Build and start application
-        run: docker compose up --detach --build app
+        run: RUIAN_DRIVER=fixture docker compose up --detach --build app
 
       - name: Wait for application
         run: node scripts/workshop-cli.mjs wait-for-health http://127.0.0.1:8080/health
@@ -22,7 +22,7 @@ jobs:
         run: docker compose exec -T app php artisan migrate:fresh --seed --force
 
       - name: Run fixed Playwright functional suite
-        run: docker compose run --rm -e PLAYWRIGHT_BASE_URL=http://app:9999 playwright pnpm exec playwright test --grep-invert '@visual|@exercise'
+        run: RUIAN_DRIVER=fixture docker compose run --no-deps --rm playwright pnpm exec playwright test --grep-invert '@visual|@exercise'
 
       - name: Upload Playwright report
         if: always()
