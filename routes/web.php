@@ -2,7 +2,13 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\AddressSearchController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CustomerAddressChangeController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OperatorAddressChangeRequestController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\TestResetController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserEmailResetNotificationController;
 use App\Http\Controllers\UserEmailVerificationController;
@@ -13,10 +19,26 @@ use App\Http\Controllers\UserTwoFactorAuthenticationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', fn () => Inertia::render('welcome'))->name('home');
+Route::get('/', fn () => auth()->check() ? to_route('dashboard') : to_route('login'))->name('home');
+Route::get('/health', fn () => response()->json(['status' => 'ok']))->name('health');
+Route::post('/_test/reset', TestResetController::class)->name('test.reset');
 
 Route::middleware(['auth', 'verified'])->group(function (): void {
-    Route::get('dashboard', fn () => Inertia::render('dashboard'))->name('dashboard');
+    Route::get('dashboard', DashboardController::class)->name('dashboard');
+    Route::get('api/addresses', AddressSearchController::class)->name('addresses.search');
+
+    Route::middleware('role:customer')->group(function (): void {
+        Route::get('address-change', [CustomerAddressChangeController::class, 'create'])->name('address-change.create');
+        Route::post('address-change', [CustomerAddressChangeController::class, 'store'])->name('address-change.store');
+    });
+
+    Route::prefix('operator')->name('operator.')->middleware('role:operator,admin')->group(function (): void {
+        Route::get('requests', [OperatorAddressChangeRequestController::class, 'index'])->name('requests.index');
+        Route::get('requests/{addressChangeRequest}', [OperatorAddressChangeRequestController::class, 'show'])->name('requests.show');
+        Route::patch('requests/{addressChangeRequest}', [OperatorAddressChangeRequestController::class, 'update'])->name('requests.update');
+    });
+
+    Route::get('admin', AdminController::class)->middleware('role:admin')->name('admin.index');
 });
 
 Route::middleware('auth')->group(function (): void {

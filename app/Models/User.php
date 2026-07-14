@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\UserRole;
 use Carbon\CarbonInterface;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Override;
 
 /**
  * @property-read int $id
@@ -25,6 +28,12 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property-read CarbonInterface $created_at
  * @property-read CarbonInterface $updated_at
  */
+#[\Illuminate\Database\Eloquent\Attributes\Hidden([
+    'password',
+    'remember_token',
+    'two_factor_secret',
+    'two_factor_recovery_codes',
+])]
 final class User extends Authenticatable implements MustVerifyEmail
 {
     /**
@@ -36,18 +45,9 @@ final class User extends Authenticatable implements MustVerifyEmail
     use TwoFactorAuthenticatable;
 
     /**
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-        'two_factor_secret',
-        'two_factor_recovery_codes',
-    ];
-
-    /**
      * @var array<string, string>
      */
+    #[Override]
     protected $casts = [
         'id' => 'integer',
         'name' => 'string',
@@ -60,5 +60,12 @@ final class User extends Authenticatable implements MustVerifyEmail
         'two_factor_confirmed_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'role' => UserRole::class,
     ];
+
+    /** @return HasOne<Company, $this> */
+    public function company(): HasOne
+    {
+        return $this->hasOne(Company::class, 'customer_id');
+    }
 }

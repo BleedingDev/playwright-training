@@ -1,13 +1,6 @@
-import {
-  BookOpen01Icon,
-  Folder01Icon,
-  LayoutGridIcon,
-} from "@hugeicons/core-free-icons";
-import { Link } from "@inertiajs/react";
+import { LayoutGridIcon } from "@hugeicons/core-free-icons";
+import { Link, usePage } from "@inertiajs/react";
 
-import type { NavItem } from "@/types";
-
-import { NavFooter } from "@/components/nav-footer";
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
 import {
@@ -20,29 +13,23 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { dashboard } from "@/routes";
+import type { NavItem, SharedData } from "@/types";
 
 import AppLogo from "./app-logo";
 
-const mainNavItems: NavItem[] = [
-  {
-    href: dashboard(),
-    icon: LayoutGridIcon,
-    title: "Dashboard",
-  },
-];
-
-const footerNavItems: NavItem[] = [
-  {
-    href: "https://github.com/laravel/react-starter-kit",
-    icon: Folder01Icon,
-    title: "Repository",
-  },
-  {
-    href: "https://laravel.com/docs/starter-kits#react",
-    icon: BookOpen01Icon,
-    title: "Documentation",
-  },
-];
+const navItemsByRole: Record<string, NavItem[]> = {
+  admin: [{ href: "/admin", icon: LayoutGridIcon, title: "Administrácia" }],
+  customer: [
+    { href: dashboard(), icon: LayoutGridIcon, title: "Prehľad firmy" },
+  ],
+  operator: [
+    {
+      href: "/operator/requests",
+      icon: LayoutGridIcon,
+      title: "Požiadavky",
+    },
+  ],
+};
 
 export const AppSidebar = () => (
   <Sidebar collapsible="icon" variant="inset">
@@ -68,15 +55,19 @@ const SidebarLogoLink = () => (
   </SidebarMenuButton>
 );
 
-const AppSidebarMain = () => (
-  <SidebarContent>
-    <NavMain items={mainNavItems} />
-  </SidebarContent>
-);
+const AppSidebarMain = () => {
+  const { auth } = usePage<SharedData>().props;
+  const items = navItemsByRole[auth.user.role] ?? navItemsByRole.customer;
+
+  return (
+    <SidebarContent>
+      <NavMain items={items} />
+    </SidebarContent>
+  );
+};
 
 const AppSidebarFooter = () => (
   <SidebarFooter>
-    <NavFooter items={footerNavItems} className="mt-auto" />
     <NavUser />
   </SidebarFooter>
 );

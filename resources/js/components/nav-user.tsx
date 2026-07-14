@@ -1,8 +1,6 @@
 import { ArrowUpDownIcon } from "@hugeicons/core-free-icons";
 import { usePage } from "@inertiajs/react";
 
-import type { SharedData } from "@/types";
-
 import { Icon } from "@/components/icon";
 import {
   DropdownMenu,
@@ -18,6 +16,7 @@ import {
 import { UserInfo } from "@/components/user-info";
 import { UserMenuContent } from "@/components/user-menu-content";
 import { useIsMobile } from "@/hooks/use-mobile";
+import type { SharedData } from "@/types";
 
 const collapsedSide = "left" as const;
 const mobileSide = "bottom" as const;

@@ -1,7 +1,5 @@
 import { Link, usePage } from "@inertiajs/react";
 
-import type { NavItem } from "@/types";
-
 import { Icon } from "@/components/icon";
 import {
   SidebarGroup,
@@ -10,6 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import type { NavItem } from "@/types";
 
 export const NavMain = ({ items = [] }: { items: NavItem[] }) => {
   const page = usePage();

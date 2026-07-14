@@ -2,6 +2,9 @@
 /bootstrap/ssr
 /node_modules
 /public/build
+/playwright/.auth
+/playwright-report
+/test-results
 /public/hot
 /public/storage
 /resources/js/actions

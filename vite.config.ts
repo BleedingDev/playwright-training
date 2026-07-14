@@ -5,9 +5,6 @@ import laravel from "laravel-vite-plugin";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  esbuild: {
-    jsx: "automatic",
-  },
   plugins: [
     laravel({
       input: ["resources/css/app.css", "resources/js/app.tsx"],

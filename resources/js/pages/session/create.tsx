@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import AuthLayout from "@/layouts/auth-layout";
-import { register } from "@/routes";
 import { request } from "@/routes/password";
 
 interface LoginProps {
@@ -19,10 +18,10 @@ interface LoginProps {
 
 const Login = ({ status, canResetPassword }: LoginProps) => (
   <AuthLayout
-    title="Log in to your account"
-    description="Enter your email and password below to log in"
+    title="Prihlásenie do SídloFlow"
+    description="Zadajte demo účet a heslo"
   >
-    <Head title="Log in" />
+    <Head title="Prihlásenie" />
 
     <Form
       {...SessionController.store.form()}
@@ -88,7 +87,7 @@ const LoginFields = ({
 
 const EmailField = ({ error }: { error?: string }) => (
   <div className="grid gap-2">
-    <Label htmlFor="email">Email address</Label>
+    <Label htmlFor="email">E-mail</Label>
     <Input
       id="email"
       type="email"
@@ -96,7 +95,7 @@ const EmailField = ({ error }: { error?: string }) => (
       required
       autoFocus
       autoComplete="email"
-      placeholder="email@example.com"
+      placeholder="customer@example.test"
     />
     <InputError message={error} />
   </div>
@@ -117,7 +116,7 @@ const PasswordField = ({
       name="password"
       required
       autoComplete="current-password"
-      placeholder="Password"
+      placeholder="Heslo"
     />
     <InputError message={error} />
   </div>
@@ -129,10 +128,10 @@ const PasswordLabelRow = ({
   canResetPassword: boolean;
 }) => (
   <div className="flex items-center">
-    <Label htmlFor="password">Password</Label>
+    <Label htmlFor="password">Heslo</Label>
     {canResetPassword ? (
       <TextLink href={request()} className="ml-auto text-sm">
-        Forgot password?
+        Zabudli ste heslo?
       </TextLink>
     ) : null}
   </div>
@@ -141,7 +140,7 @@ const PasswordLabelRow = ({
 const RememberField = () => (
   <div className="flex items-center space-x-3">
     <Checkbox id="remember" name="remember" />
-    <Label htmlFor="remember">Remember me</Label>
+    <Label htmlFor="remember">Zapamätať prihlásenie</Label>
   </div>
 );
 
@@ -153,12 +152,12 @@ const SubmitButton = ({ processing }: { processing: boolean }) => (
     data-test="login-button"
   >
     {processing ? <Spinner /> : null}
-    Log in
+    Prihlásiť sa
   </Button>
 );
 
 const LoginFooter = () => (
   <div className="text-center text-sm text-muted-foreground">
-    Don&apos;t have an account? <TextLink href={register()}>Sign up</TextLink>
+    Workshop demo · heslo <strong>password</strong>
   </div>
 );

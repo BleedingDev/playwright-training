@@ -1,8 +1,6 @@
 import { Logout01Icon, Settings01Icon } from "@hugeicons/core-free-icons";
 import { Link, router } from "@inertiajs/react";
 
-import type { User } from "@/types";
-
 import { Icon } from "@/components/icon";
 import {
   DropdownMenuGroup,
@@ -14,6 +12,7 @@ import { UserInfo } from "@/components/user-info";
 import { useMobileNavigation } from "@/hooks/use-mobile-navigation";
 import { logout } from "@/routes";
 import { edit } from "@/routes/user-profile";
+import type { User } from "@/types";
 
 interface UserMenuContentProps {
   user: User;

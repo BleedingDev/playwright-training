@@ -1,52 +1,123 @@
-import { Head } from "@inertiajs/react";
+import { Head, Link, usePage } from "@inertiajs/react";
 
-import { PlaceholderPattern } from "@/components/ui/placeholder-pattern";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import AppLayout from "@/layouts/app-layout";
-import { dashboard } from "@/routes";
 
-interface BreadcrumbItem {
-  title: string;
-  href: string;
+interface Address {
+  label: string;
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-  {
-    href: dashboard().url,
-    title: "Dashboard",
-  },
-];
+interface Company {
+  name: string;
+  registration_number: string;
+  address: Address;
+}
 
-const Dashboard = () => (
-  <AppLayout breadcrumbs={breadcrumbs}>
-    <Head title="Dashboard" />
-    <DashboardContent />
-  </AppLayout>
-);
+interface AddressRequest {
+  id: number;
+  requested_address: Address;
+  status: "pending" | "approved" | "rejected";
+  submitted_at: string;
+  rejection_note: string | null;
+}
 
-const DashboardContent = () => (
-  <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-    <DashboardGrid />
-    <DashboardPanel />
-  </div>
-);
+const statusLabels = {
+  approved: "Schválená",
+  pending: "Čaká na schválenie",
+  rejected: "Zamietnutá",
+};
 
-const DashboardGrid = () => (
-  <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-    <DashboardCard />
-    <DashboardCard />
-    <DashboardCard />
-  </div>
-);
+const Dashboard = ({
+  company,
+  requests,
+}: {
+  company: Company;
+  requests: AddressRequest[];
+}) => {
+  const { flash } = usePage<{ flash?: { success?: string } }>().props;
 
-const DashboardCard = () => (
-  <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-  </div>
-);
+  return (
+    <AppLayout breadcrumbs={[{ href: "/dashboard", title: "Prehľad" }]}>
+      <Head title="Prehľad firmy" />
+      <main className="mx-auto flex w-full max-w-5xl flex-col gap-6 p-4 md:p-8">
+        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+          <div>
+            <p className="text-sm font-medium text-primary">SídloFlow</p>
+            <h1 className="text-3xl font-semibold tracking-tight">
+              Prehľad firmy
+            </h1>
+          </div>
+          <Button render={<Link href="/address-change" />}>Zmena sídla</Button>
+        </div>
 
-const DashboardPanel = () => (
-  <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-  </div>
-);
+        {flash?.success ? (
+          <div
+            className="rounded-lg border border-emerald-300 bg-emerald-50 p-4 text-emerald-900"
+            role="status"
+          >
+            {flash.success}
+          </div>
+        ) : null}
+
+        <Card>
+          <CardHeader>
+            <CardTitle>{company.name}</CardTitle>
+            <CardDescription>IČO {company.registration_number}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">Aktuálne sídlo</p>
+            <p className="mt-1 text-lg font-medium">{company.address.label}</p>
+          </CardContent>
+        </Card>
+
+        <section aria-labelledby="request-history">
+          <h2 className="mb-3 text-xl font-semibold" id="request-history">
+            Predchádzajúce požiadavky
+          </h2>
+          {requests.length === 0 ? (
+            <p className="rounded-lg border p-6 text-muted-foreground">
+              Zatiaľ ste neposlali žiadnu požiadavku.
+            </p>
+          ) : (
+            <ul className="grid gap-3">
+              {requests.map((request) => (
+                <li key={request.id}>
+                  <Card>
+                    <CardContent className="flex flex-col justify-between gap-3 py-5 sm:flex-row sm:items-center">
+                      <div>
+                        <p className="font-medium">
+                          {request.requested_address.label}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          Odoslané 10. júna 2026
+                        </p>
+                        {request.rejection_note ? (
+                          <p className="mt-2 text-sm">
+                            Dôvod: {request.rejection_note}
+                          </p>
+                        ) : null}
+                      </div>
+                      <Badge variant="outline">
+                        {statusLabels[request.status]}
+                      </Badge>
+                    </CardContent>
+                  </Card>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </main>
+    </AppLayout>
+  );
+};
+
 export default Dashboard;
