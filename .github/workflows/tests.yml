@@ -14,22 +14,22 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@b604ade2a87db23f8871b7182e69ec5e75effb45 # v2
         with:
           php-version: 8.5
           tools: composer:2.10.2
           coverage: xdebug
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@b0f76dfb45f55f8421693e4803ac7bb65143bd34 # v6
         with:
           version: 11.13.0
 
       - name: Setup Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 26.5.0
           cache: pnpm
@@ -54,7 +54,7 @@ jobs:
         run: echo "version=$(pnpm exec playwright --version | awk '{ print $2 }')" >> "$GITHUB_OUTPUT"
 
       - name: Cache Playwright Browsers
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
@@ -68,7 +68,7 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: pnpm exec playwright install-deps
       - name: Rector Cache
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: /tmp/rector
           key: ${{ runner.os }}-rector-${{ hashFiles('composer.lock') }}
@@ -76,7 +76,7 @@ jobs:
       - run: mkdir -p /tmp/rector
 
       - name: PHPStan Cache
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: /tmp/phpstan
           key: ${{ runner.os }}-phpstan-${{ hashFiles('composer.lock') }}
@@ -87,8 +87,8 @@ jobs:
         run: composer test
 
       - name: Store artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: browser-screenshots
-          path: |
-            tests/Browser/Screenshots
+          path: tests/Browser/Screenshots
+          if-no-files-found: ignore
