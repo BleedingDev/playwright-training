@@ -5,11 +5,6 @@ const requestedAddress = "Václavské náměstí 837/11, 110 00 Praha 1";
 test("@regression @address-change customer submits an address change and sees pending", async ({
   page,
 }) => {
-  await page.goto("/login");
-  await page.getByLabel("E-mail").fill("customer@example.test");
-  await page.getByLabel("Heslo").fill("password");
-  await page.getByRole("button", { name: "Prihlásiť sa" }).click();
-  await expect(page).toHaveURL(/\/dashboard$/u);
   await page.goto("/address-change");
   await page.getByRole("combobox", { name: "Adresa sídla" }).fill("Václav");
   await page.getByRole("option", { name: requestedAddress }).click();

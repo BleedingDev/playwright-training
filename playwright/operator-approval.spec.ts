@@ -4,11 +4,6 @@ test("@regression @address-change operator approval updates the customer company
   browser,
   page,
 }) => {
-  await page.goto("/login");
-  await page.getByLabel("E-mail").fill("customer@example.test");
-  await page.getByLabel("Heslo").fill("password");
-  await page.getByRole("button", { name: "Prihlásiť sa" }).click();
-  await expect(page).toHaveURL(/\/dashboard$/u);
   await page.goto("/address-change");
   await page.getByRole("combobox", { name: "Adresa sídla" }).fill("Dlouhá");
   await page
@@ -16,15 +11,10 @@ test("@regression @address-change operator approval updates the customer company
     .click();
   await page.getByRole("button", { name: "Odoslať požiadavku" }).click();
 
-  const operatorContext = await browser.newContext();
+  const operatorContext = await browser.newContext({
+    storageState: "playwright/.auth/operator.json",
+  });
   const operatorPage = await operatorContext.newPage();
-  await operatorPage.goto("/login");
-  await operatorPage.getByLabel("E-mail").fill("operator@example.test");
-  await operatorPage.getByLabel("Heslo").fill("password");
-  await operatorPage
-    .getByRole("button", { name: "Prihlásiť sa" })
-    .click();
-  await expect(operatorPage).toHaveURL(/\/operator\/requests$/u);
   await operatorPage.goto("/operator/requests");
   await operatorPage.getByRole("link", { name: "Otvoriť detail" }).click();
   await operatorPage
