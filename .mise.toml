@@ -59,3 +59,7 @@ run = "node scripts/workshop-cli.mjs test:report"
 
 [tasks."exercise:weak-test"]
 run = "node scripts/workshop-cli.mjs exercise:weak-test"
+
+[tasks.verify]
+description = "Reset data and run the current critical flow"
+run = "node scripts/workshop-cli.mjs verify:critical"
