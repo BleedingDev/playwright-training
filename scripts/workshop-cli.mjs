@@ -95,6 +95,24 @@ function resetApp(env) {
   );
 }
 
+function syncWayfinder() {
+  docker([
+    "exec",
+    "-T",
+    "--user",
+    "root",
+    "app",
+    "php",
+    "artisan",
+    "wayfinder:generate",
+    "--with-form",
+    "-vvv",
+  ]);
+  for (const directory of ["actions", "routes", "wayfinder"]) {
+    docker(["cp", `app:/app/resources/js/${directory}`, "resources/js/"]);
+  }
+}
+
 async function setup() {
   pnpm(["install", "--frozen-lockfile"]);
   pnpm(["exec", "playwright", "install", "chromium"]);
@@ -102,6 +120,7 @@ async function setup() {
   docker(["up", "--detach", "app"]);
   resetApp();
   await waitForHealth();
+  syncWayfinder();
 
   console.log(`\nSídloFlow: ${baseUrl}`);
   console.log(
@@ -233,6 +252,7 @@ async function doctor() {
 
 async function verify() {
   await appUp({ fixture: true });
+  syncWayfinder();
   resetApp(fixtureEnv);
   docker([
     "run",
