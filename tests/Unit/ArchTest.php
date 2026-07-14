@@ -52,6 +52,7 @@ arch('models usage')
     ->toOnlyBeUsedIn([
         'App\\Actions',
         'App\\Http',
+        'App\\Models',
         'Database',
         'Tests',
     ]);

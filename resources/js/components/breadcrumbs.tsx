@@ -1,7 +1,5 @@
 import { Link } from "@inertiajs/react";
 
-import type { BreadcrumbItem as BreadcrumbItemType } from "@/types";
-
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,6 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import type { BreadcrumbItem as BreadcrumbItemType } from "@/types";
 
 export const Breadcrumbs = ({
   breadcrumbs,

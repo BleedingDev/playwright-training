@@ -1,8 +1,7 @@
 import type { ReactNode } from "react";
 
-import type { BreadcrumbItem } from "@/types";
-
 import AppLayoutTemplate from "@/layouts/app/app-sidebar-layout";
+import type { BreadcrumbItem } from "@/types";
 
 interface AppLayoutProps {
   children: ReactNode;

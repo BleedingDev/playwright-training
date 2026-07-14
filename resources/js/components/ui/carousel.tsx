@@ -114,7 +114,7 @@ function Carousel({
   return (
     <CarouselContext.Provider
       value={{
-        api: api,
+        api,
         canScrollNext,
         canScrollPrev,
         carouselRef,

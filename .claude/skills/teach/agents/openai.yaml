@@ -1,0 +1,4 @@
+interface:
+  display_name: "Teach a Playwright Test"
+  short_description: "Explain one workshop test and quiz understanding"
+  default_prompt: "Use /teach to explain this Playwright test and quiz me one question at a time."

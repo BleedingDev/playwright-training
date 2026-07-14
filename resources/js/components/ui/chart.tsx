@@ -1,11 +1,10 @@
+import * as React from "react";
 import type {
   DefaultLegendContentProps,
   DefaultTooltipContentProps,
   TooltipContentProps,
   TooltipProps,
 } from "recharts";
-
-import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 
 import { cn } from "@/lib/utils";
@@ -13,7 +12,7 @@ import { cn } from "@/lib/utils";
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { dark: ".dark", light: "" } as const;
 
-type ValueType = number | string | ReadonlyArray<number | string>;
+type ValueType = number | string | readonly (number | string)[];
 type NameType = number | string;
 
 type RechartsTooltipProps = TooltipProps<ValueType, NameType>;
@@ -27,15 +26,16 @@ type ChartTooltipContentProps = Omit<
   "payload"
 > & { payload?: TooltipPayload };
 
-export type ChartConfig = {
-  [k in string]: {
+export type ChartConfig = Record<
+  string,
+  {
     label?: React.ReactNode;
     icon?: React.ComponentType;
   } & (
     | { color?: string; theme?: never }
     | { color?: never; theme: Record<keyof typeof THEMES, string> }
-  );
-};
+  )
+>;
 
 type ChartItemConfig = ChartConfig[string];
 

@@ -1,0 +1,11 @@
+.git
+.github
+.data
+.env
+bootstrap/cache/*.php
+node_modules
+playwright-report
+storage/framework/views/*.php
+storage/logs/*.log
+test-results
+vendor

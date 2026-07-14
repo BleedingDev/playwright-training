@@ -1,0 +1,58 @@
+[tools]
+node = "26.5.0"
+pnpm = "11.13.0"
+
+[env]
+PLAYWRIGHT_BASE_URL = "http://127.0.0.1:8080"
+
+[tasks.setup]
+description = "Install dependencies, build containers, seed data, and install Chromium"
+run = "bash scripts/setup.sh"
+
+[tasks.doctor]
+description = "Check the complete workshop environment"
+run = "bash scripts/doctor.sh"
+
+[tasks."app:up"]
+description = "Build and start SídloFlow with live RÚIAN address search"
+run = "docker compose up --detach --build app && bash scripts/wait-for-health.sh \"${PLAYWRIGHT_BASE_URL:-http://127.0.0.1:8080}/health\""
+
+[tasks."app:up:test"]
+description = "Build and start SídloFlow with the deterministic RÚIAN fixture"
+run = "RUIAN_DRIVER=fixture docker compose up --detach --build --force-recreate app && bash scripts/wait-for-health.sh \"${PLAYWRIGHT_BASE_URL:-http://127.0.0.1:8080}/health\""
+
+[tasks."app:down"]
+description = "Stop the application"
+run = "docker compose down"
+
+[tasks."app:reset"]
+description = "Reset and deterministically seed application data"
+run = "docker compose exec -T app php artisan migrate:fresh --seed --force"
+
+[tasks."app:logs"]
+description = "Follow application logs"
+run = "docker compose logs --follow app"
+
+[tasks."test:php"]
+description = "Run the PHP test suite in the reproducible testing image"
+run = "docker compose run --rm php-tests php artisan test --testsuite=Feature,Unit"
+
+[tasks."test:e2e"]
+description = "Run the current Playwright workshop suite locally"
+run = "mise run app:up:test && pnpm exec playwright test"
+
+[tasks."test:e2e:docker"]
+description = "Run the current suite in the matching Playwright image"
+run = "mise run app:up:test && RUIAN_DRIVER=fixture docker compose run --no-deps --rm playwright pnpm exec playwright test"
+
+[tasks."test:ui"]
+description = "Open Playwright UI Mode"
+run = "pnpm exec playwright test --ui"
+
+[tasks."test:codegen"]
+description = "Open Playwright Codegen"
+run = "pnpm exec playwright codegen \"${PLAYWRIGHT_BASE_URL:-http://127.0.0.1:8080}\""
+
+[tasks."test:report"]
+description = "Open the latest Playwright HTML report"
+run = "pnpm exec playwright show-report playwright-report"

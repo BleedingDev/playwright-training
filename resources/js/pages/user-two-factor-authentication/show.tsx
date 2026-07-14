@@ -2,8 +2,6 @@ import { Shield01Icon, Shield02Icon } from "@hugeicons/core-free-icons";
 import { Form, Head } from "@inertiajs/react";
 import { useState } from "react";
 
-import type { BreadcrumbItem } from "@/types";
-
 import HeadingSmall from "@/components/heading-small";
 import { Icon } from "@/components/icon";
 import TwoFactorRecoveryCodes from "@/components/two-factor-recovery-codes";
@@ -14,6 +12,7 @@ import { useTwoFactorAuth } from "@/hooks/use-two-factor-auth";
 import AppLayout from "@/layouts/app-layout";
 import SettingsLayout from "@/layouts/settings/layout";
 import { disable, enable, show } from "@/routes/two-factor";
+import type { BreadcrumbItem } from "@/types";
 
 interface TwoFactorProps {
   twoFactorEnabled?: boolean;

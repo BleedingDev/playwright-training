@@ -1,11 +1,10 @@
-import type { IconSvgElement } from "@hugeicons/react";
-
 import {
   LockKeyIcon,
   RefreshIcon,
   ViewIcon,
   ViewOffIcon,
 } from "@hugeicons/core-free-icons";
+import type { IconSvgElement } from "@hugeicons/react";
 import { Form } from "@inertiajs/react";
 import { useEffect, useRef, useState, type RefObject } from "react";
 
@@ -55,7 +54,7 @@ const TwoFactorRecoveryCodes = ({
           behavior: "smooth",
           block: "nearest",
         });
-      });
+      }, 0);
     }
   };
 

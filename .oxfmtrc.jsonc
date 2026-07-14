@@ -14,7 +14,12 @@
   "bracketSameLine": false,
   "arrowParens": "always",
   "endOfLine": "lf",
-  "ignorePatterns": [".codex/**"],
+  "ignorePatterns": [
+    ".claude/agents/**",
+    ".claude/skills/**",
+    ".codex/**",
+    "public/mockServiceWorker.js",
+  ],
   "experimentalSortPackageJson": true,
   "experimentalSortImports": {
     "ignoreCase": true,

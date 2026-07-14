@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -29,6 +30,7 @@ final class UserFactory extends Factory
             'two_factor_secret' => Str::random(10),
             'two_factor_recovery_codes' => Str::random(10),
             'two_factor_confirmed_at' => now(),
+            'role' => UserRole::Customer,
         ];
     }
 
@@ -46,5 +48,20 @@ final class UserFactory extends Factory
             'two_factor_recovery_codes' => null,
             'two_factor_confirmed_at' => null,
         ]);
+    }
+
+    public function customer(): self
+    {
+        return $this->state(fn (): array => ['role' => UserRole::Customer]);
+    }
+
+    public function operator(): self
+    {
+        return $this->state(fn (): array => ['role' => UserRole::Operator]);
+    }
+
+    public function admin(): self
+    {
+        return $this->state(fn (): array => ['role' => UserRole::Admin]);
     }
 }

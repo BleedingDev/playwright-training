@@ -1,0 +1,62 @@
+name: playwright-training
+
+services:
+  app:
+    build:
+      context: .
+      target: application
+    environment:
+      APP_DEBUG: "false"
+      APP_ENV: local
+      APP_KEY: base64:c2lkbG9mbG93LXdvcmtzaG9wLWtleS0xMjM0NTY3ODk=
+      APP_NAME: SídloFlow
+      APP_URL: http://127.0.0.1:${APP_PORT:-8080}
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /data/database.sqlite
+      RUIAN_DRIVER: ${RUIAN_DRIVER:-http}
+      SESSION_DRIVER: cookie
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    volumes:
+      - app_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://127.0.0.1:8080/health"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+      start_period: 5s
+    networks:
+      default:
+        aliases:
+          - app.test
+
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.61.1-noble
+    init: true
+    working_dir: /work
+    environment:
+      CI: "true"
+      PLAYWRIGHT_BASE_URL: http://app.test:8080
+    depends_on:
+      app:
+        condition: service_healthy
+    entrypoint: ["/work/scripts/playwright-entrypoint.sh"]
+    command: ["pnpm", "exec", "playwright", "test"]
+    volumes:
+      - .:/work
+      - playwright_node_modules:/work/node_modules
+      - playwright_pnpm_store:/pnpm/store
+
+  php-tests:
+    profiles: ["tools"]
+    build:
+      context: .
+      target: testing
+    environment:
+      APP_KEY: base64:c2lkbG9mbG93LXdvcmtzaG9wLWtleS0xMjM0NTY3ODk=
+      RUIAN_DRIVER: fixture
+
+volumes:
+  app_data:
+  playwright_node_modules:
+  playwright_pnpm_store:

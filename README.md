@@ -1,119 +1,49 @@
-- Inertia & React (this project) version: **[github.com/nunomaduro/laravel-starter-kit-inertia-react](https://github.com/nunomaduro/laravel-starter-kit-inertia-react)**
-- Blade version: **[github.com/nunomaduro/laravel-starter-kit](https://github.com/nunomaduro/laravel-starter-kit)**
+# SídloFlow
 
-<p align="center">
-    <a href="https://youtu.be/VhzP0XWGTC4" target="_blank">
-        <img src="https://github.com/nunomaduro/laravel-starter-kit/blob/main/art/banner.png" alt="Overview Laravel Starter Kit" style="width:70%;">
-    </a>
-</p>
+SídloFlow spracúva požiadavky zákazníkov na zmenu registračnej adresy firmy. Bežná aplikácia vyhľadáva adresy online v RÚIAN, customer odošle zmenu, operator ju schváli alebo zamietne a admin vidí roly aj všetky požiadavky. Testy používajú malú offline fixture, aby zostali rýchle a deterministické.
 
-<p>
-    <a href="https://github.com/nunomaduro/laravel-starter-kit-inertia-react/actions"><img src="https://github.com/nunomaduro/laravel-starter-kit-inertia-react/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
-    <a href="https://packagist.org/packages/nunomaduro/laravel-starter-kit-inertia-react"><img src="https://img.shields.io/packagist/dt/nunomaduro/laravel-starter-kit-inertia-react" alt="Total Downloads"></a>
-    <a href="https://packagist.org/packages/nunomaduro/laravel-starter-kit-inertia-react"><img src="https://img.shields.io/packagist/v/nunomaduro/laravel-starter-kit-inertia-react" alt="Latest Stable Version"></a>
-    <a href="https://packagist.org/packages/nunomaduro/laravel-starter-kit-inertia-react"><img src="https://img.shields.io/packagist/l/nunomaduro/laravel-starter-kit-inertia-react" alt="License"></a>
-</p>
+## Setup a spustenie
 
-**Laravel Starter Kit (Inertia & React)** is an ultra-strict, type-safe [Laravel](https://laravel.com) skeleton engineered for developers who refuse to compromise on code quality. This opinionated starter kit enforces rigorous development standards through meticulous tooling configuration and architectural decisions that prioritize type safety, immutability, and fail-fast principles.
-
-## Why This Starter Kit?
-
-Modern PHP has evolved into a mature, type-safe language, yet many Laravel projects still operate with loose conventions and optional typing. This starter kit changes that paradigm by enforcing:
-
-- **Fully Actions-Oriented Architecture**: Every operation is encapsulated in a single-action class
-- **Cruddy by Design**: Standardized CRUD operations for all controllers, actions, and Inertia & React pages
-- **100% Type Coverage**: Every method, property, and parameter is explicitly typed
-- **Zero Tolerance for Code Smells**: Rector, PHPStan, ESLint, and Prettier at maximum strictness catch issues before they become bugs
-- **Immutable-First Architecture**: Data structures favor immutability to prevent unexpected mutations
-- **Fail-Fast Philosophy**: Errors are caught at compile-time, not runtime
-- **Automated Code Quality**: Pre-configured tools ensure consistent, pristine code across your entire team
-- **Just Better Laravel Defaults**: Thanks to **[Essentials](https://github.com/nunomaduro/essentials)** / strict models, auto eager loading, immutable dates, and more...
-- **AI Guidelines**: Integrated AI Guidelines to assist in maintaining code quality and consistency
-- **Full Testing Suite**: More than 150 tests with 100% code coverage using Pest
-- This isn't just another Laravel boilerplate—it's a statement that PHP applications can and should be built with the same rigor as strongly-typed languages like Rust or TypeScript.
-
-## Getting Started
-
-> **Requires [PHP 8.4+](https://php.net/releases/) and a code coverage driver like [xdebug](https://xdebug.org/docs/install)**.
-
-Create your type-safe Laravel application using [Composer](https://getcomposer.org):
+Na Windows spúšťajte workshop vo WSL. Mise tasky používajú Bash a `mise run doctor` vyžaduje `curl`.
 
 ```bash
-composer create-project nunomaduro/laravel-starter-kit-inertia-react --prefer-dist example-app
+git clone https://github.com/BleedingDev/playwright-training.git
+cd playwright-training
+
+git switch -c moje-cviceni origin/workshop/00-start
+
+mise trust
+mise install
+mise run setup
+mise run doctor
 ```
 
-### Initial Setup
+Aplikácia beží na `http://127.0.0.1:8080`.
 
-Navigate to your project and complete the setup:
+| Rola     | Účet                    |
+| -------- | ----------------------- |
+| Customer | `customer@example.test` |
+| Operator | `operator@example.test` |
+| Admin    | `admin@example.test`    |
+
+Heslo pre všetky demo účty je `password`.
+
+## Hlavné príkazy
 
 ```bash
-cd example-app
-
-# Setup the project
-composer setup
-
-# Start the development server
-composer dev
+mise run app:up
+mise run app:up:test
+mise run app:down
+mise run app:reset
+mise run app:logs
+mise run verify
+mise run test:e2e
+mise run test:e2e:docker
+mise run test:smoke
+mise run test:visual
+mise run test:ui
+mise run test:codegen
+mise run test:report
 ```
 
-### Optional: Browser Testing Setup
-
-If you plan to use Pest's browser testing capabilities:
-
-```bash
-pnpm add -D playwright
-pnpm exec playwright install
-```
-
-### Optional: Codex dev-browser Skill (UI Validation)
-
-This repo can install the dev-browser Codex skill (cross‑platform) for automated UI validation and screenshots.
-
-```bash
-# Installs to $CODEX_HOME/skills/dev-browser (defaults to ~/.codex)
-pnpm run setup:dev-browser
-```
-
-To update/reinstall later:
-
-```bash
-pnpm run setup:dev-browser -- --force
-```
-
-The installer fetches the latest dev-browser from upstream and copies only the `skills/dev-browser` folder. Restart Codex after installation so the skill is picked up.
-
-### Verify Installation
-
-Run the test suite to ensure everything is configured correctly:
-
-```bash
-composer test
-```
-
-You should see 100% test coverage and all quality checks passing.
-
-## Available Tooling
-
-### Development
-
-- `composer dev` - Starts Laravel server, queue worker, log monitoring, and Vite dev server concurrently
-
-### Code Quality
-
-- `composer lint` - Runs Rector (refactoring), Pint (PHP formatting), and Prettier (JS/TS formatting)
-- `composer test:lint` - Dry-run mode for CI/CD pipelines
-
-### Testing
-
-- `composer test:type-coverage` - Ensures 100% type coverage with Pest
-- `composer test:types` - Runs PHPStan at level 9 (maximum strictness)
-- `composer test:unit` - Runs Pest tests with 100% code coverage requirement
-- `composer test` - Runs the complete test suite (type coverage, unit tests, linting, static analysis)
-
-### Maintenance
-
-- `composer update:requirements` - Updates all PHP and NPM dependencies to latest versions
-
-## License
-
-**Laravel Starter Kit Inertia React** was created by **[Nuno Maduro](https://x.com/enunomaduro)** under the **[MIT license](https://opensource.org/licenses/MIT)**.
+`mise run app:up` používa živé vyhľadávanie ČÚZK/RÚIAN. `mise run app:up:test` spustí tú istú aplikáciu s malou deterministickou fixture pre testy a ukážky mockovania. `mise run app:reset` obnoví demo dáta. Mapa workshopových vetiev a catch-up postup sú v [CHECKPOINTS.md](CHECKPOINTS.md).

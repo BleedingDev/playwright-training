@@ -2,8 +2,6 @@ import { Transition } from "@headlessui/react";
 import { Form, Head } from "@inertiajs/react";
 import { useRef, type RefObject } from "react";
 
-import type { BreadcrumbItem } from "@/types";
-
 import UserPasswordController from "@/actions/App/Http/Controllers/UserPasswordController";
 import HeadingSmall from "@/components/heading-small";
 import InputError from "@/components/input-error";
@@ -13,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import AppLayout from "@/layouts/app-layout";
 import SettingsLayout from "@/layouts/settings/layout";
 import { edit } from "@/routes/password";
+import type { BreadcrumbItem } from "@/types";
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
