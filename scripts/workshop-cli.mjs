@@ -379,16 +379,6 @@ const commands = {
       fixtureEnv
     );
   },
-  "verify:critical": () => {
-    resetApp();
-    pnpm([
-      "exec",
-      "playwright",
-      "test",
-      "playwright/address-change.spec.ts",
-      "playwright/operator-approval.spec.ts",
-    ]);
-  },
   verify,
   "wait-for-health": () => waitForHealth(process.argv[3]),
 };

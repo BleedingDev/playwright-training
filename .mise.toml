@@ -78,5 +78,9 @@ description = "Rebuild and run the approved visual check in the pinned image"
 run = "node scripts/workshop-cli.mjs test:visual"
 
 [tasks.verify]
-description = "Reset data and run the current critical flow"
-run = "node scripts/workshop-cli.mjs verify:critical"
+description = "Reset data and run the canonical fixed functional suite"
+run = "node scripts/workshop-cli.mjs verify"
+
+[tasks."hooks:install"]
+description = "Install the opt-in pre-push verification hook"
+run = "node scripts/workshop-cli.mjs hooks:install"
