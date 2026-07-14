@@ -43,9 +43,6 @@ const Dashboard = ({
   requests: AddressRequest[];
 }) => {
   const { flash } = usePage<{ flash?: { success?: string } }>().props;
-  const visibleRequests = requests.filter(
-    (request) => request.status !== "pending"
-  );
 
   return (
     <AppLayout breadcrumbs={[{ href: "/dashboard", title: "Prehľad" }]}>
@@ -85,13 +82,13 @@ const Dashboard = ({
           <h2 className="mb-3 text-xl font-semibold" id="request-history">
             Predchádzajúce požiadavky
           </h2>
-          {visibleRequests.length === 0 ? (
+          {requests.length === 0 ? (
             <p className="rounded-lg border p-6 text-muted-foreground">
               Zatiaľ ste neposlali žiadnu požiadavku.
             </p>
           ) : (
             <ul className="grid gap-3">
-              {visibleRequests.map((request) => (
+              {requests.map((request) => (
                 <li key={request.id}>
                   <Card>
                     <CardContent className="flex flex-col justify-between gap-3 py-5 sm:flex-row sm:items-center">

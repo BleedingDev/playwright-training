@@ -32,5 +32,5 @@ export default defineConfig({
     trace: isCi ? "on-first-retry" : "retain-on-failure",
     video: "retain-on-failure",
   },
-  workers: isCi ? 1 : undefined,
+  workers: 1,
 });
