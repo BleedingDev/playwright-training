@@ -5,8 +5,8 @@
 | `workshop/00-start`           | Hotová aplikácia, infra, skills a seed test       | zelená                  | `mise run doctor`                                                                            |
 | `checkpoint/01-context`       | Referenčný kontext a Test Brief                   | zelená                  | `mise run doctor`                                                                            |
 | `exercise/02-weak-green-test` | Slabý green test prehliada chýbajúci pending stav | slabý test prejde       | `mise run exercise:weak-test`                                                                |
-| `checkpoint/02-critical-test` | Kritický customer test a opravený produkt         | zelená                  | `mise run verify`                                                                            |
-| `exercise/03-ruian-mocking`   | TODO skeletony pre 500, empty a delay             | zelená základná sada    | `mise run test:e2e`                                                                          |
+| `checkpoint/02-critical-test` | Kritický customer test a opravený produkt         | zelená                  | `mise run test:e2e`                                                                          |
+| `exercise/03-ruian-mocking`   | Nenamockovaná odpoveď 500 čaká na `page.route`    | zámerne červená         | `mise run exercise:mocking`                                                                  |
 | `checkpoint/03-ruian-mocking` | `page.route` a MSW scenáre                        | zelená                  | `mise run exercise:mocking`                                                                  |
 | `exercise/04-timing-trace`    | Predčasná assertion nad oneskorenou odpoveďou     | zámerne červená + trace | `mise run exercise:timing`                                                                   |
 | `checkpoint/04-timing-fixed`  | Web-first čakanie bez pevného sleepu              | zelená                  | `mise run exercise:timing`                                                                   |

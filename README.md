@@ -4,7 +4,7 @@ SídloFlow spracúva požiadavky zákazníkov na zmenu registračnej adresy firm
 
 ## Setup a spustenie
 
-Na Windows spúšťajte workshop vo WSL. Mise tasky používajú Bash a `mise run doctor` vyžaduje `curl`.
+Rovnaké príkazy fungujú v macOS/Linux termináli aj v natívnom Windows PowerShelli. Na Windows musí byť spustený Docker Desktop; WSL nie je potrebné.
 
 ```bash
 git clone https://github.com/BleedingDev/playwright-training.git
@@ -36,14 +36,12 @@ mise run app:up:test
 mise run app:down
 mise run app:reset
 mise run app:logs
-mise run verify
+mise run test:php
 mise run test:e2e
 mise run test:e2e:docker
-mise run test:smoke
-mise run test:visual
 mise run test:ui
 mise run test:codegen
 mise run test:report
 ```
 
-`mise run app:up` používa živé vyhľadávanie ČÚZK/RÚIAN. `mise run app:up:test` spustí tú istú aplikáciu s malou deterministickou fixture pre testy a ukážky mockovania. `mise run app:reset` obnoví demo dáta. Mapa workshopových vetiev a catch-up postup sú v [CHECKPOINTS.md](CHECKPOINTS.md).
+`mise run app:up` používa živé vyhľadávanie ČÚZK/RÚIAN. `mise run app:up:test` spustí tú istú aplikáciu s malou deterministickou fixture pre testy a ukážky mockovania. `mise run app:reset` obnoví demo dáta. Ďalšie príkazy pribúdajú v priebehu workshopu; mapa vetiev a catch-up postup sú v [CHECKPOINTS.md](CHECKPOINTS.md).
