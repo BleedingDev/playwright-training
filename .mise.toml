@@ -63,6 +63,9 @@ run = "node scripts/workshop-cli.mjs exercise:weak-test"
 [tasks."exercise:mocking"]
 run = "node scripts/workshop-cli.mjs exercise:mocking"
 
+[tasks."exercise:timing"]
+run = "node scripts/workshop-cli.mjs exercise:timing"
+
 [tasks.verify]
 description = "Reset data and run the current critical flow"
 run = "node scripts/workshop-cli.mjs verify:critical"
